@@ -7,8 +7,6 @@
   <!-- Nav -->
   <?php loadPartials("nav-bar") ?>
 
-  <!-- Showcase -->
-  <?php loadPartials("showcase-search") ?>
 
   <!-- Top Banner -->
   <?php loadPartials("top-banner") ?>
@@ -179,10 +177,7 @@
           </div>
         </div>
       </div>
-      <a href="/listings" class="block text-xl text-center">
-        <i class="fa fa-arrow-alt-circle-right"></i>
-        Show All Jobs
-      </a>
+
   </section>
 
   <!-- Bottom Banner -->

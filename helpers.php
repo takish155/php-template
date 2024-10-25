@@ -47,3 +47,31 @@ function loadPartials($partialName)
     echo "Path of $partialName doesn't exist!";
   }
 }
+
+/**
+ * Inspect the value
+ * 
+ * @param mixed $value
+ * @return void
+ */
+
+function inspect($value)
+{
+  echo "<pre>";
+  var_dump($value);
+  echo "</pre>";
+};
+
+/**
+ * Inspect the value and die
+ * 
+ * @param mixed $value
+ * @return void
+ */
+
+function inspectAndDie($value)
+{
+  echo "<pre>";
+  die(var_dump($value));
+  echo "</pre>";
+};
