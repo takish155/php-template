@@ -16,14 +16,17 @@ function basePath($path = "")
  * Load the view
  * 
  * @param string $name
+ * @param array $props = []
  * @return void
  */
 
-function loadView($name)
+function loadView($name, $props = [])
 {
   $path = basePath("views/$name.view.php");
 
   if (file_exists($path)) {
+    // Makes the props available in the view
+    extract($props);
     require $path;
   } else {
     echo "Path of $name doesn't exist!";
@@ -75,3 +78,15 @@ function inspectAndDie($value)
   die(var_dump($value));
   echo "</pre>";
 };
+
+/**
+ * Formats money into 1,000,000
+ * 
+ * @param string $money
+ * @return string
+ */
+
+function formatMoney($money)
+{
+  return "￥" . number_format(floatval($money));
+}
