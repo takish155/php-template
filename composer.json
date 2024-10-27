@@ -1,0 +1,20 @@
+{
+  "name": "takish155/workopia",
+  "description": "Workopia website",
+  "authors": [
+    {
+      "name": "Brad Traversy",
+      "email": "support@traversymedia.com"
+    },
+    {
+      "name": "Takeshi",
+      "email": "clawhd3519@icloud.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "Framework/",
+      "App\\": "App/"
+    }
+  }
+}

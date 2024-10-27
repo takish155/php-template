@@ -22,7 +22,7 @@ function basePath($path = "")
 
 function loadView($name, $props = [])
 {
-  $path = basePath("views/$name.view.php");
+  $path = basePath("App/views/$name.view.php");
 
   if (file_exists($path)) {
     // Makes the props available in the view
@@ -42,7 +42,7 @@ function loadView($name, $props = [])
 
 function loadPartials($partialName)
 {
-  $path = basePath("views/partials/$partialName.php");
+  $path = basePath("App/views/partials/$partialName.php");
 
   if (file_exists($path)) {
     require $path;
