@@ -20,11 +20,18 @@ class ListingController
     loadView("listings/index", ["listings" => $listings]);
   }
 
-  public function show()
+  public function show($params)
   {
-    $id = htmlspecialchars($_GET["id"]);
+    $id = htmlspecialchars($params["id"]);
+
 
     $info = $this->db->query("SELECT * FROM listings WHERE id = :id", ["id" => $id])->fetch();
+
+    if (!$info) {
+      ErrorController::notFound("Listing not found!");
+      return;
+    }
+
     loadView("listings/show", [
       "info" => $info,
     ]);

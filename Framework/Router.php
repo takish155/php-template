@@ -2,6 +2,8 @@
 
 namespace Framework;
 
+use App\Controllers\ErrorController;
+
 class Router
 {
   protected $routes = [];
@@ -74,33 +76,64 @@ class Router
     $this->registerRoute("DELETE", $uri, $controller);
   }
 
-  /**
-   * Load error page
-   * @param int $httpCode
-   * @return void
-   */
-  public function error($httpCode = 404)
+  public function route($uri)
   {
-    http_response_code($httpCode);
-    loadView("error/$httpCode");
-    exit;
-  }
+    $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-  public function route($uri, $method)
-  {
     foreach ($this->routes as $route) {
-      if ($route["uri"] === $uri && $route["method"] === $method) {
-        // Extract controller and controller method
-        $controller = "App\\Controllers\\" . $route["controller"];
-        $controllerMethod = $route["controllerMethod"];
+      // Split the current URI into segments
+      $uriSegment = explode("/", trim($uri, "/"));
 
-        // Init the controller and call method
-        $controllerInstance = new $controller();
-        $controllerInstance->$controllerMethod();
-        return;
+
+      // Split every URI into segments
+      $routeSegments = explode("/", trim($route["uri"], "/"));
+
+      $match = true;
+
+      if (count($uriSegment) === count($routeSegments) && strtoupper($route['method'] === $requestMethod)) {
+        $params = [];
+        $match = true;
+
+        // Checks if there are same route length
+        for ($i = 0; $i < count($routeSegments); $i++) {
+          // Checks for match in the URL and parameter
+          if ($routeSegments[$i] !== $uriSegment[$i] && !preg_match('/\{(.+?)\}/', $routeSegments[$i])) {
+            $match = false;
+            break;
+          }
+
+          // Checks for params and adds to the $params
+          if (preg_match('/\{(.+?)\}/', $routeSegments[$i], $matches)) {
+            $params[$matches[1]] = $uriSegment[$i];
+          }
+        }
+
+        if ($match) {
+          // Extract controller and controller method
+          $controller = "App\\Controllers\\" . $route["controller"];
+          $controllerMethod = $route["controllerMethod"];
+
+          // Init the controller and call method
+          $controllerInstance = new $controller();
+          $controllerInstance->$controllerMethod($params);
+          return;
+        };
       }
+
+
+
+      // if ($route["uri"] === $uri && $route["method"] === $method) {
+      //   // Extract controller and controller method
+      //   $controller = "App\\Controllers\\" . $route["controller"];
+      //   $controllerMethod = $route["controllerMethod"];
+
+      //   // Init the controller and call method
+      //   $controllerInstance = new $controller();
+      //   $controllerInstance->$controllerMethod();
+      //   return;
+      // }
     }
 
-    $this->error(404);
+    ErrorController::notFound("Page not found, try checking your URL");
   }
 }
