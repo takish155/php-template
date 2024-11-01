@@ -4,12 +4,10 @@
 
 <section class="flex justify-center items-center mt-20">
   <div class="bg-white p-8 rounded-lg shadow-md w-full md:w-600 mx-6">
-    <h2 class="text-4xl text-center font-bold mb-4">Create Job Listing</h2>
-    <!-- <div class="message bg-red-100 p-3 my-3">This is an error message.</div>
-        <div class="message bg-green-100 p-3 my-3">
-          This is a success message.
-        </div> -->
-    <form method="POST" action="/listings">
+    <h2 class="text-4xl text-center font-bold mb-4">Edit Job info</h2>
+    <?php loadPartials("message") ?>
+    <form method="POST" action="/listings/<?= $info->id ?>">
+      <input type="hidden" name="_method" value="PUT" />
       <h2 class="text-2xl font-bold text-center text-gray-500 mb-4">
         Job Info
       </h2>
@@ -22,7 +20,7 @@
       <?php endif ?>
       <div class="mb-4">
         <input
-          value="<?= $listing["title"] ?? "" ?>"
+          value="<?= $info->title ?? "" ?>"
           type="text"
           name="title"
           placeholder="Job Title"
@@ -33,12 +31,12 @@
           name="description"
           placeholder="Job Description"
           class="w-full px-4 py-2 border rounded focus:outline-none">
-          <?= $listing["description"] ?? "" ?>
+          <?= $info->description ?? "" ?>
         </textarea>
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["salary"] ?? "" ?>"
+          value="<?= $info->salary ?? "" ?>"
           type="text"
           name="salary"
           placeholder="Annual Salary"
@@ -46,7 +44,7 @@
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["requirements"] ?? "" ?>"
+          value="<?= $info->requirements ?? "" ?>"
           type="text"
           name="requirements"
           placeholder="Requirements"
@@ -54,7 +52,7 @@
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["benefits"] ?? "" ?>"
+          value="<?= $info->benefits ?? "" ?>"
           type="text"
           name="benefits"
           placeholder="Benefits"
@@ -62,7 +60,7 @@
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["tags"] ?? "" ?>"
+          value="<?= $info->tags ?? "" ?>"
           type="text"
           name="tags"
           placeholder="Tags"
@@ -73,7 +71,7 @@
       </h2>
       <div class="mb-4">
         <input
-          value="<?= $listing["company"] ?? "" ?>"
+          value="<?= $info->company ?? "" ?>"
           type="text"
           name="company"
           placeholder="Company Name"
@@ -81,7 +79,7 @@
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["address"] ?? "" ?>"
+          value="<?= $info->address ?? "" ?>"
           type="text"
           name="address"
           placeholder="Address"
@@ -89,7 +87,7 @@
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["city"] ?? "" ?>"
+          value="<?= $info->city ?? "" ?>"
           type="text"
           name="city"
           placeholder="City"
@@ -97,7 +95,7 @@
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["prefecture"] ?? "" ?>"
+          value="<?= $info->prefecture ?? "" ?>"
           type="text"
           name="prefecture"
           placeholder="Prefecture"
@@ -105,7 +103,7 @@
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["phone"] ?? "" ?>"
+          value="<?= $info->phone ?? "" ?>"
           type="text"
           name="phone"
           placeholder="Phone"
@@ -113,7 +111,7 @@
       </div>
       <div class="mb-4">
         <input
-          value="<?= $listing["email"] ?? "" ?>"
+          value="<?= $info->email ?? "" ?>"
           type="email"
           name="email"
           placeholder="Email Address For Applications"
