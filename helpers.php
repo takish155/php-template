@@ -40,11 +40,12 @@ function loadView($name, $props = [])
  * @return void
  */
 
-function loadPartials($partialName)
+function loadPartials($partialName, $props = [])
 {
   $path = basePath("App/views/partials/$partialName.php");
 
   if (file_exists($path)) {
+    extract($props);
     require $path;
   } else {
     echo "Path of $partialName doesn't exist!";

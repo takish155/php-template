@@ -13,13 +13,9 @@
       <h2 class="text-2xl font-bold text-center text-gray-500 mb-4">
         Job Info
       </h2>
-      <?php if (isset($errors)) : ?>
-        <div class="mb-6">
-          <?php foreach ($errors as $err): ?>
-            <div class="mb-2 bg-red-500 text-white rounded-lg text-sm py-2 px-4"><?= $err ?></div>
-          <?php endforeach ?>
-        </div>
-      <?php endif ?>
+      <?= loadPartials("errors", [
+        "errors" => $errors ?? [],
+      ]) ?>
       <div class="mb-4">
         <input
           value="<?= $listing["title"] ?? "" ?>"
