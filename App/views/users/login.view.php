@@ -8,9 +8,13 @@
         <div class="message bg-green-100 p-3 my-3">
           This is a success message.
         </div> -->
-    <form>
+    <?= loadPartials("errors", [
+      "errors" => $errors ?? [],
+    ]) ?>
+    <form method="POST" action="/auth/login">
       <div class="mb-4">
         <input
+          value="<?= $user["email"] ?? "" ?>"
           type="email"
           name="email"
           placeholder="Email Address"
@@ -18,6 +22,7 @@
       </div>
       <div class="mb-4">
         <input
+          value="<?= $user["password"] ?? "" ?>"
           type="password"
           name="password"
           placeholder="Password"
