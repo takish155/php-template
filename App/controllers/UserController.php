@@ -207,6 +207,6 @@ class UserController
       return;
     }
 
-    Session::authenticate($user->userId, $user->name, $user->email, $user->city, $user->prefecture);
+    Session::authenticate($user->id, $user->name, $user->email, $user->city, $user->prefecture);
   }
 }

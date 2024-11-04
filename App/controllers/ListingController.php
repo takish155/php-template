@@ -2,8 +2,11 @@
 
 namespace App\Controllers;
 
+use Framework\Authorization;
 use Framework\Database;
+use Framework\Session;
 use Framework\Validation;
+
 
 class ListingController
 {
@@ -17,7 +20,7 @@ class ListingController
 
   public function index()
   {
-    $listings = $this->db->query("SELECT * FROM listings")->fetchAll();
+    $listings = $this->db->query("SELECT * FROM listings ORDER BY created_at DESC")->fetchAll();
     loadView("listings/index", ["listings" => $listings]);
   }
 
@@ -77,7 +80,7 @@ class ListingController
     $newListingData = array_intersect_key($_POST, array_flip($allowedFields));
 
     // Default value for userId (no session yet)
-    $newListingData["userId"] = "1";
+    $newListingData["userId"] = Session::get("user")["id"];
 
     // Sanitizes the data
     $newListingData = array_map("sanitize", $newListingData);
@@ -124,7 +127,7 @@ class ListingController
 
     $this->db->query($query, $newListingData);
 
-    $_SESSION["success_message"] = "Successfuly created a listing!";
+    Session::setFlashMessage("success_message", "Successfuly created a listing!");
 
     redirect("/listings");
   }
@@ -144,9 +147,14 @@ class ListingController
       return;
     }
 
+    if (!Authorization::isOwner($listing->userId)) {
+      Session::setFlashMessage("error_message", "You are not authorized to delete this listing!");
+      return redirect("/listings/$listing->id");
+    }
+
     $this->db->query("DELETE FROM listings where id = :id", $params);
 
-    $_SESSION["success_message"] = "Listing successfully removed!";
+    Session::setFlashMessage("success_message", "Listing successfully removed!");
     redirect("/listings");
   }
 
@@ -168,6 +176,13 @@ class ListingController
       ErrorController::notFound("Listing not found!");
       return;
     }
+
+    if (!Authorization::isOwner($info->userId)) {
+      ErrorController::unauthorized();
+      return;
+    }
+
+
 
 
     loadView("listings/edit", [
@@ -192,6 +207,11 @@ class ListingController
     if (!$info) {
       ErrorController::notFound("Listing not found!");
       return;
+    }
+
+    if (!Authorization::isOwner($info->userId)) {
+      Session::setFlashMessage("error_message", "You are not authorized to update this listing!");
+      return redirect("/listings/$info->id");
     }
 
     $allowedFields = [
@@ -259,7 +279,7 @@ class ListingController
     $this->db->query($updateQuery, $updateValues)->fetch();
 
     // Adds flash message
-    $_SESSION["success_message"] = "Successfuly updated the listing!";
+    Session::setFlashMessage("success_message", "Successfuly updated the listing!");
 
 
     redirect("/listings/edit/$info->id");
