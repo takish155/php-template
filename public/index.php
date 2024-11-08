@@ -23,7 +23,7 @@ require "../helpers.php";
 $router = new Router();
 
 // Get Routes
-require basePath("routes.php");
+require basePath("App/routes.php");
 
 // Get URI and HTTP Method
 $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);

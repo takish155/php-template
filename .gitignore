@@ -6,3 +6,4 @@
 .DS_Store
 /workopia-theme
 config/db.php
+/public/css/style.css
